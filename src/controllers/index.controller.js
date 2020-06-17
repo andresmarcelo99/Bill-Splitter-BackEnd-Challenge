@@ -1,4 +1,12 @@
 const { Pool } = require("pg");
+const dotenv = require("dotenv").config({ path: "../../.env" });
+
+// const pool = new Pool({
+//   host: process.env.HOST,
+//   user: process.env.USER,
+//   password: process.env.PASSWORD,
+//   database: process.env.DATABASE,
+// });
 
 const pool = new Pool({
   host: "localhost",
@@ -8,10 +16,17 @@ const pool = new Pool({
 });
 
 const getUser = (req, res) => {
+  //   console.log("---------------------");
+  //   console.log(process.env.DB_HOST);
+  //   console.log(process.env.DB_USER);
+  //   console.log(process.env._DB);
+  //   console.log(process.env.DB_PASSWORD);
+  //   console.log("---------------------");
+
   pool
     .query(`SELECT * from users`)
-    .then((response) => res.send(response.rows))
-    .catch((err) => res.send(err));
+    .then((response) => res.json(response.rows))
+    .catch((err) => res.json(err));
 };
 
 const getUserByEmail = (req, res) => {
