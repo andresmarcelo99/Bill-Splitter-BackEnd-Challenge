@@ -1,0 +1,19 @@
+{
+  "name": "bill-splitter-be",
+  "version": "1.0.0",
+  "description": "Bill Splitter BackEnd Acklen dev challenge",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js"
+  },
+  "author": "Marcelo Garcia",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
