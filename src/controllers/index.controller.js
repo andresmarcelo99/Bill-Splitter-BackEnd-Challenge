@@ -38,6 +38,20 @@ const getUser = (req, res) => {
 
 const getUserByEmail = (req, res) => {
   pool
+    .query(
+      `CREATE TABLE IF NOT EXISTS users(
+      id SERIAL PRIMARY KEY,
+       name VARCHAR(40),
+      email TEXT,
+       split TEXT
+  )`
+    )
+    .then((resp) => {
+      pool
+        .query("SELECT * FROM users WHERE email = $1", [req.params.email])
+        .then((response = res.json(response.rows)))
+        .catch((err) => res.json(err));
+    })
     .query("SELECT * FROM users WHERE email = $1", [req.params.email])
     .then((response) => {
       return res.json(response.rows);
