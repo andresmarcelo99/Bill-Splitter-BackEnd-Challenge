@@ -19,11 +19,20 @@ const pool = new Pool({
 const getUser = (req, res) => {
   pool
     .query(
-      "CREATE TABLE customers (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), address VARCHAR(255))"
+      `CREATE TABLE IF NOT EXISTS users(
+        id SERIAL PRIMARY KEY,
+         name VARCHAR(40),
+        email TEXT,
+         split TEXT
+    )`
     )
-    .query(`SELECT * from users`)
-    .then((response) => res.json(response.rows))
-    .catch((err) => res.json(err));
+    .then((resp) => {
+      pool
+        .query(`SELECT * from users`)
+        .then((response) => res.json(response.rows))
+        .catch((err) => res.json(err));
+    })
+    .catch((err) => console.log(err));
 };
 
 const getUserByEmail = (req, res) => {
