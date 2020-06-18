@@ -8,7 +8,8 @@ const dotenv = require("dotenv").config();
 //midlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "https://mg-bill-splitter.herokuapp.com" }));
+app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 5000;
 
@@ -49,7 +50,3 @@ app.use(require("./src/routes/index.js"));
 
 app.listen(PORT);
 console.log(`Server on port ${PORT}`);
-// console.log(process.env.DB_HOST);
-// console.log(process.env.DB_USER);
-// console.log(process.env._DB);
-// console.log(process.env.DB_PASSWORD);
