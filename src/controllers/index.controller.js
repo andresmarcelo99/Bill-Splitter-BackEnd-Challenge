@@ -39,7 +39,9 @@ const getUser = (req, res) => {
 const getUserByEmail = (req, res) => {
   pool
     .query("SELECT * FROM users WHERE email = $1", [req.params.email])
-    .then((response = res.json(response.rows)))
+    .then((response) => {
+      return res.json(response.rows);
+    })
     .catch((err) => res.json(err));
 };
 
@@ -47,31 +49,19 @@ const createUser = (req, res) => {
   const { name, email, split } = req.body;
 
   pool
-    .query(
-      `CREATE TABLE IF NOT EXISTS users(
-      id SERIAL PRIMARY KEY,
-       name VARCHAR(40),
-      email TEXT,
-       split TEXT
-  )`
+    .query("INSERT INTO users(name, email, split) VALUES ($1, $2, $3)", [
+      name,
+      email,
+      split,
+    ])
+    .then(() =>
+      res.json({
+        message: "User Created",
+        body: {
+          user: { name, email, split },
+        },
+      })
     )
-    .then((resp) => {
-      pool
-        .query("INSERT INTO users(name, email, split) VALUES ($1, $2, $3)", [
-          name,
-          email,
-          split,
-        ])
-        .then(() =>
-          res.json({
-            message: "User Created",
-            body: {
-              user: { name, email, split },
-            },
-          })
-        );
-    })
-
     .catch((err) => res.send(err));
 };
 

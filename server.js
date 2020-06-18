@@ -50,4 +50,3 @@ app.use(require("./src/routes/index.js"));
 
 app.listen(PORT);
 console.log(`Server on port ${PORT}`);
-///
