@@ -1,22 +1,16 @@
 const { Pool } = require("pg");
-const dotenv = require("dotenv").config({ path: "../../.env" });
-
-// const pool = new Pool({
-//   host: process.env.HOST,
-//   user: process.env.USER,
-//   password: process.env.PASSWORD,
-//   database: process.env.DATABASE,
-// });
+const dotenv = require("dotenv").config();
 
 const pool = new Pool({
-  host: "mysplitsdb.cjb79ibvsmnw.us-east-2.rds.amazonaws.com",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
   port: 5433,
-  user: "postgres",
-  password: "marcelosans12",
-  database: "postgres",
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 const getUser = (req, res) => {
+  console.log(require("dotenv").config());
   pool
     .query(`SELECT * from users`)
     .then((response) => res.json(response.rows))

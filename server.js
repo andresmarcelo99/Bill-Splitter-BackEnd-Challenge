@@ -10,6 +10,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors({ origin: "http://localhost:3000" }));
 
+const PORT = process.env.PORT || 5000;
+
 //setup auth0
 const authConfig = {
   domain: "dev-en69qxgm.auth0.com",
@@ -35,11 +37,18 @@ app.get("/api/external", checkJwt, (req, res) => {
   });
 });
 
+//test
+app.get("/dummy", (req, res) => {
+  res.json({
+    message: "hi there",
+  });
+});
+
 //routes
 app.use(require("./src/routes/index.js"));
 
-app.listen(5000);
-console.log("Server on port 5000");
+app.listen(PORT);
+console.log(`Server on port ${PORT}`);
 // console.log(process.env.DB_HOST);
 // console.log(process.env.DB_USER);
 // console.log(process.env._DB);
