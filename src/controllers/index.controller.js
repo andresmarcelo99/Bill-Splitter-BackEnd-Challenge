@@ -17,7 +17,6 @@ const pool = new Pool({
 });
 
 const getUser = (req, res) => {
-  console.log(require("dotenv").config());
   pool
     .query(`SELECT * from users`)
     .then((response) => res.json(response.rows))
