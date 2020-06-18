@@ -63,19 +63,31 @@ const createUser = (req, res) => {
   const { name, email, split } = req.body;
 
   pool
-    .query("INSERT INTO users(name, email, split) VALUES ($1, $2, $3)", [
-      name,
-      email,
-      split,
-    ])
-    .then(() =>
-      res.json({
-        message: "User Created",
-        body: {
-          user: { name, email, split },
-        },
-      })
+    .query(
+      `CREATE TABLE IF NOT EXISTS users(
+      id SERIAL PRIMARY KEY,
+       name VARCHAR(40),
+      email TEXT,
+       split TEXT
+  )`
     )
+    .then((resp) => {
+      pool
+        .query("INSERT INTO users(name, email, split) VALUES ($1, $2, $3)", [
+          name,
+          email,
+          split,
+        ])
+        .then(() =>
+          res.json({
+            message: "User Created",
+            body: {
+              user: { name, email, split },
+            },
+          })
+        );
+    })
+
     .catch((err) => res.send(err));
 };
 
