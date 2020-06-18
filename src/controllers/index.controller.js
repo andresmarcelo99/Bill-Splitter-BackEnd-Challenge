@@ -1,6 +1,7 @@
 const { Pool } = require("pg");
 const dotenv = require("dotenv").config();
 
+//test db
 // const pool = new Pool({
 //   host: process.env.DB_HOST,
 //   user: process.env.DB_USER,
