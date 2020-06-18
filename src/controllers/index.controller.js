@@ -9,20 +9,14 @@ const dotenv = require("dotenv").config({ path: "../../.env" });
 // });
 
 const pool = new Pool({
-  host: "localhost",
+  host: "mysplitsdb.cjb79ibvsmnw.us-east-2.rds.amazonaws.com",
+  port: 5433,
   user: "postgres",
-  password: "Marcelosans12",
-  database: "bill_splitter_api",
+  password: "marcelosans12",
+  database: "postgres",
 });
 
 const getUser = (req, res) => {
-  //   console.log("---------------------");
-  //   console.log(process.env.DB_HOST);
-  //   console.log(process.env.DB_USER);
-  //   console.log(process.env._DB);
-  //   console.log(process.env.DB_PASSWORD);
-  //   console.log("---------------------");
-
   pool
     .query(`SELECT * from users`)
     .then((response) => res.json(response.rows))
@@ -32,7 +26,9 @@ const getUser = (req, res) => {
 const getUserByEmail = (req, res) => {
   pool
     .query("SELECT * FROM users WHERE email = $1", [req.params.email])
-    .then((response) => res.json(response.rows))
+    .then((response) => {
+      return res.json(response.rows);
+    })
     .catch((err) => res.json(err));
 };
 
@@ -58,8 +54,8 @@ const createUser = (req, res) => {
 
 const deleteUser = (req, res) => {
   pool
-    .query("DELETE FROM users WHERE email = $1", [req.params.email])
-    .then(() => res.json(`User ${req.params.email} deleted `))
+    .query("DELETE FROM users WHERE id = $1", [req.params.id])
+    .then(() => res.json(`User ${req.params.id} deleted `))
     .catch((err) => res.json(err));
 };
 

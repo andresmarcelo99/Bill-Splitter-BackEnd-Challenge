@@ -29,7 +29,7 @@ const checkJwt = jwt({
 
 router.get("/users", getUser);
 router.get("/users/:email", checkJwt, getUserByEmail);
-router.post("/users", createUser);
-router.delete("/users/:email", deleteUser);
+router.post("/users", checkJwt, createUser);
+router.delete("/users/:id", deleteUser);
 
 module.exports = router;
