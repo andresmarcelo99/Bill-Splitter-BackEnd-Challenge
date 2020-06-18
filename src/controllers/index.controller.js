@@ -55,38 +55,34 @@ const createUser = (req, res) => {
       email,
       split,
     ])
-    .then(() =>
-      {
-        
-        let testAccount = await nodemailer.createTestAccount();
+    .then(() => {
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: "secure233.servconfig.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: "info@sidhn.com", // generated ethereal user
+          pass: "HLqiV7F(lglu", // generated ethereal password
+        },
+      });
 
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-          host: "secure233.servconfig.com",
-          port: 465,
-          secure: true, // true for 465, false for other ports
-          auth: {
-            user: "info@sidhn.com", // generated ethereal user
-            pass: "HLqiV7F(lglu", // generated ethereal password
-          },
-        });
+      // send mail with defined transport object
+      let info = transporter.sendMail({
+        from: '"Bill-Splitter" <info@sidhn.com>', // sender address
+        to: `${email}`, // list of receivers
+        subject: "Your lastest split", // Subject line
+        text: "Text", // plain text body
+        html: `<b>${split}</b>`, // html body
+      });
 
-        // send mail with defined transport object
-        let info = await transporter.sendMail({
-          from: '"Bill-Splitter" <info@sidhn.com>', // sender address
-          to: `${email}`, // list of receivers
-          subject: "Your lastest split", // Subject line
-          text: "Text", // plain text body
-          html: `<b>${split}</b>`, // html body
-        });
-        
-        return res.json({
+      return res.json({
         message: "User Created",
         body: {
           user: { name, email, split },
         },
-      })}
-    )
+      });
+    })
     .catch((err) => res.send(err));
 };
 
